@@ -147,9 +147,9 @@ public class Panel2048 extends JPanel
             }
         }
 
-        test();
-//        generateNum();
-//        generateNum();
+       // test();
+        generateNum();
+        generateNum();
         Panel2048.this.repaint();
     }
 
@@ -383,11 +383,11 @@ public class Panel2048 extends JPanel
 
                 if (map[i][j].num != 0)
                 {
-//                    if (map[i][j].num == 1024)
-//                    {
-//                        JOptionPane.showMessageDialog(jf, "还玩，睡觉吧你");
-//
-//                    }
+                    if (map[i][j].num == 1024)
+                    {
+                        JOptionPane.showMessageDialog(jf, "还玩，睡觉吧你");
+
+                    }
                     g.setColor(hashMap.get(map[i][j].num).color);
                     g.drawString(map[i][j].num + "", 30 + i * 100, 40 + j * 100);
 
