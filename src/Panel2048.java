@@ -1,5 +1,3 @@
-import com.sun.org.apache.bcel.internal.generic.NEW;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -19,13 +17,15 @@ public class Panel2048 extends JPanel
     Random a = new Random();
     private int cellWidth = 90;
     private int borderWidth = 10;
+    private boolean isMove = false;
+
 
     public Panel2048(JFrame jf)
     {
         this.jf = jf;
         jf.setSize(4 * cellWidth + 5 * borderWidth + 7, 4 * cellWidth + 5 * borderWidth + 28);
 
-        SartGame();
+        StartGame();
 
         jf.addKeyListener(new KeyListener()
         {
@@ -38,6 +38,7 @@ public class Panel2048 extends JPanel
             @Override
             public void keyPressed(KeyEvent e)
             {
+                isMove = false;
                 switch (e.getKeyCode())
                 {
                     case KeyEvent.VK_DOWN:
@@ -53,27 +54,22 @@ public class Panel2048 extends JPanel
                         ToRight();
                         break;
                 }
-                boolean HasEmpty = false;
-                for (int i = 0; i < map.length; i++)
-                {
-                    for (int j = 0; j < map.length; j++)
-                    {
-                        if (map[i][j].num == 0)
-                        {
-                            HasEmpty = true;
-                        }
-                    }
-                }
-                if (HasEmpty == true)
+
+
+                if (HasEmpty() && isMove)
                 {
                     generateNum();
 
-                } else
-                {
-                    JOptionPane.showMessageDialog(jf, "sb,重玩吧你");
-                    SartGame();
                 }
                 Panel2048.this.repaint();
+
+
+                if (isDead() && !HasEmpty())
+                {
+                    JOptionPane.showMessageDialog(jf, "sb,重玩吧你");
+                    StartGame();
+                }
+
             }
 
             @Override
@@ -86,7 +82,51 @@ public class Panel2048 extends JPanel
 
 //不能比较第二次
 
-    public void SartGame()
+    public boolean HasEmpty()
+    {
+
+        boolean HasEmptyfalg = false;
+        for (int i = 0; i < map.length; i++)
+        {
+            for (int j = 0; j < map.length; j++)
+            {
+                if (map[i][j].num == 0)
+                {
+                    HasEmptyfalg = true;
+                }
+            }
+        }
+        return HasEmptyfalg;
+    }
+
+    public boolean isDead()
+    {
+        boolean isDeadflag;
+        isDeadflag = true;
+        for (int i = 0; i < map.length - 1; i++)
+        {
+            for (int j = 0; j < map.length; j++)
+            {
+                if (map[i][j].num == map[i + 1][j].num)
+                {
+                    isDeadflag = false;
+                }
+            }
+        }
+        for (int i = 0; i < map.length; i++)
+        {
+            for (int j = 0; j < map.length - 1; j++)
+            {
+                if (map[i][j].num == map[i][j + 1].num)
+                {
+                    isDeadflag = false;
+                }
+            }
+        }
+        return isDeadflag;
+    }
+
+    public void StartGame()
     {
         for (int i = 0; i < map.length; i++)
         {
@@ -97,6 +137,7 @@ public class Panel2048 extends JPanel
         }
         generateNum();
         generateNum();
+        Panel2048.this.repaint();
     }
 
     public void generateNum()
@@ -132,6 +173,7 @@ public class Panel2048 extends JPanel
                             map[j][k].num = 0;
                             map[i][k].num = map[i][k].num * 2;
                             i = j;
+                            isMove = true;
                         }
                         break;
                     }
@@ -148,6 +190,7 @@ public class Panel2048 extends JPanel
                         {
                             map[i][k].num = map[j][k].num;
                             map[j][k].num = 0;
+                            isMove = true;
                             break;
                         }
                     }
@@ -173,7 +216,7 @@ public class Panel2048 extends JPanel
                             map[j][k].num = 0;
                             map[i][k].num = map[i][k].num * 2;
                             i = j;
-
+                            isMove = true;
                         }
                         break;
                     }
@@ -189,6 +232,7 @@ public class Panel2048 extends JPanel
                         {
                             map[i][k].num = map[j][k].num;
                             map[j][k].num = 0;
+                            isMove = true;
                             break;
                         }
                     }
@@ -214,7 +258,7 @@ public class Panel2048 extends JPanel
                             map[i][k].num = 0;
                             map[i][j].num = map[i][j].num * 2;
                             j = k;
-
+                            isMove = true;
                         }
                         break;
                     }
@@ -231,6 +275,7 @@ public class Panel2048 extends JPanel
                         {
                             map[i][j].num = map[i][k].num;
                             map[i][k].num = 0;
+                            isMove = true;
                             break;
                         }
                     }
@@ -255,7 +300,7 @@ public class Panel2048 extends JPanel
                             map[k][j].num = 0;
                             map[k][i].num = map[k][i].num * 2;
                             i = j;
-
+                            isMove = true;
                         }
                         break;
                     }
@@ -272,6 +317,7 @@ public class Panel2048 extends JPanel
                         {
                             map[k][i].num = map[k][j].num;
                             map[k][j].num = 0;
+                            isMove = true;
                             break;
                         }
                     }
@@ -291,7 +337,7 @@ public class Panel2048 extends JPanel
         hashMap.put(2, new ColorPair(new Color(0xffffff), new Color(0x7cadbf)));
         hashMap.put(4, new ColorPair(new Color(0x1a7475), new Color(0x162863)));
         hashMap.put(8, new ColorPair(new Color(0x65175f), new Color(0x59001d)));
-        hashMap.put(16, new ColorPair(new Color(0x3f6000), new Color(0x4b486f)));
+        hashMap.put(16, new ColorPair(new Color(0x7cadbf), new Color(0x070064)));
         hashMap.put(32, new ColorPair(new Color(0x070064), new Color(0x1a7475)));
         hashMap.put(64, new ColorPair(new Color(0x59001d), new Color(0xfe6969)));
         hashMap.put(128, new ColorPair(new Color(0xa9b400), new Color(0x3aaf00)));
