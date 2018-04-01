@@ -11,15 +11,11 @@ public class Panel2048 extends JPanel
 {
 
     Cell[][] map = new Cell[4][4];
-
-
     JFrame jf;
     Random a = new Random();
     private int cellWidth = 90;
     private int borderWidth = 10;
     private boolean isMove = false;
-
-
     public Panel2048(JFrame jf)
     {
         this.jf = jf;
@@ -80,6 +76,21 @@ public class Panel2048 extends JPanel
         });
     }
 
+    public void test()
+    {
+        int sum = 2;
+        for (int i = 0; i < map.length; i++)
+        {
+            for (int j = 0; j < map.length; j++)
+            {
+                map[i][j].num = sum;
+                sum = sum * 2 ;
+               if (sum==4096)return;
+            }
+        }
+
+    }
+
 //不能比较第二次
 
     public boolean HasEmpty()
@@ -135,8 +146,10 @@ public class Panel2048 extends JPanel
                 map[i][j] = new Cell();
             }
         }
-        generateNum();
-        generateNum();
+
+        test();
+//        generateNum();
+//        generateNum();
         Panel2048.this.repaint();
     }
 
@@ -335,16 +348,16 @@ public class Panel2048 extends JPanel
         hashMap.put(0, new ColorPair(new Color(0xcccccc), new Color(0xcccccc)));
 
         hashMap.put(2, new ColorPair(new Color(0xffffff), new Color(0x7cadbf)));
-        hashMap.put(4, new ColorPair(new Color(0x1a7475), new Color(0x162863)));
-        hashMap.put(8, new ColorPair(new Color(0x65175f), new Color(0x59001d)));
-        hashMap.put(16, new ColorPair(new Color(0x7cadbf), new Color(0x070064)));
-        hashMap.put(32, new ColorPair(new Color(0x070064), new Color(0x1a7475)));
-        hashMap.put(64, new ColorPair(new Color(0x59001d), new Color(0xfe6969)));
-        hashMap.put(128, new ColorPair(new Color(0xa9b400), new Color(0x3aaf00)));
-        hashMap.put(256, new ColorPair(new Color(0xd9e100), new Color(0x65175f)));
-        hashMap.put(512, new ColorPair(new Color(0x4b486f), new Color(0x070064)));
-        hashMap.put(1024, new ColorPair(new Color(0x162863), new Color(0x3f6000)));
-        hashMap.put(2048, new ColorPair(new Color(0x3f6000), new Color(0xfc0000)));
+        hashMap.put(4, new ColorPair(new Color(0xffffff), new Color(0x38339e)));
+        hashMap.put(8, new ColorPair(new Color(0xffffff), new Color(0x38339e)));
+        hashMap.put(16, new ColorPair(new Color(0xffffff), new Color(0x38339e)));
+        hashMap.put(32, new ColorPair(new Color(0xffffff), new Color(0x1a7475)));
+        hashMap.put(64, new ColorPair(new Color(0xffffff), new Color(0xfe6969)));
+        hashMap.put(128, new ColorPair(new Color(0xffffff), new Color(0x3aaf00)));
+        hashMap.put(256, new ColorPair(new Color(0xffffff), new Color(0x65175f)));
+        hashMap.put(512, new ColorPair(new Color(0xffffff), new Color(0xdd30df)));
+        hashMap.put(1024, new ColorPair(new Color(0xffffff), new Color(0xfe6969)));
+        hashMap.put(2048, new ColorPair(new Color(0xffffff), new Color(0xfc0000)));
 
 
         super.paintComponent(g);
@@ -370,11 +383,11 @@ public class Panel2048 extends JPanel
 
                 if (map[i][j].num != 0)
                 {
-                    if (map[i][j].num == 1024)
-                    {
-                        JOptionPane.showMessageDialog(jf, "还玩，睡觉吧你");
-
-                    }
+//                    if (map[i][j].num == 1024)
+//                    {
+//                        JOptionPane.showMessageDialog(jf, "还玩，睡觉吧你");
+//
+//                    }
                     g.setColor(hashMap.get(map[i][j].num).color);
                     g.drawString(map[i][j].num + "", 30 + i * 100, 40 + j * 100);
 
